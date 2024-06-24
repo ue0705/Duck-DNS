@@ -1,4 +1,6 @@
 #!/bin/bash
+#mkdir duckdns && cd duckdns && vi duck.sh
+#chmod 777 duck.sh
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
