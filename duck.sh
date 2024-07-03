@@ -1,4 +1,5 @@
 #!/bin/bash
+#2024/07/03 ver: 0.2 fue0416@gmail.com
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
