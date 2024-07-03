@@ -9,6 +9,6 @@ Raspberry Pi 有什麼方式可以線上知道他是否活著? 我看過 Austin 
 ![image](https://github.com/ue0705/Duck-DNS/assets/117436583/3c2d4b32-592b-48ad-aeb9-6fb649db05c4)
 
 2024/7/3 更新
-我突然想到 Raspberry 有記憶卡, 有時候我們不知道他的剩餘空間, 於是我稍微修改了一下 ipv6 的格式, 我把原本的 local_ipv4:mm:dd:HH:MM 共八個數字, 改成 local_ipv4:YY:mmdd:HHMM:free_disk(dec MB), 結果最後一個如果超過 9999MB 也就是 10GB 會無法塞進去, 他的格式就是八個 ffff, 我轉成 16進制就會變成非常難讀, 所以我把年給拆掉, 然後MB改成千位也就是GB, 外加餘數MB來顯示, 所以最大可以顯示 9999GB, 也就是約 10TB, 應該 raspberry pi 暫時沒有這種等級的記憶卡才是. 然後 mmdd 的日期更新我也拿掉, 實際上 HH:MM 的時間也可以拿掉, 因為他右邊還是有最後更新時間, 最後的位址我擠出來放 CPU 溫度, 所以最後的格式就會變成 local_ipv4:HHMM:free_disk(dec GB):free_disk(dec 餘數MB):CPU_Temperature(C), 可以看到 Pi Zero 2W 岌岌可危只剩下 1401MB 了, Pi 4B 溫度始終高居 70C, 要去弄散熱模組.
+我突然想到 Raspberry 有記憶卡, 有時候我們不知道他的剩餘空間, 於是我稍微修改了一下 ipv6 的格式, 我把原本的 local_ipv4:mm:dd:HH:MM 共八個數字, 改成 local_ipv4:YY:mmdd:HHMM:free_disk(dec MB), 結果最後一個如果超過 9999MB 也就是 10GB 會無法塞進去, 他的格式就是八個 ffff, 我轉成 16進制就會變成非常難讀, 所以我把年給拆掉, 然後MB改成千位也就是GB, 外加餘數MB來顯示, 所以最大可以顯示 9999GB, 也就是約 10TB, 應該 raspberry pi 暫時沒有這種等級的記憶卡才是. 然後 mmdd 的日期更新我也拿掉, 實際上 HH:MM 的時間也可以拿掉, 因為他右邊還是有最後更新時間, 最後的位址我擠出來放 CPU 溫度, 所以最後的格式就會變成 local_ipv4:HHMM:free_disk(dec GB):free_disk(dec 餘數MB):CPU_Temperature(C), 可以看到 Pi Zero 2W 岌岌可危只剩下 1401MB 了, Pi 4B 溫度始終高居 69C, 要去弄散熱模組.
 ![image](https://github.com/ue0705/Duck-DNS/assets/117436583/4c9bb28a-f153-4bf2-abb7-57dd00401d64)
 
