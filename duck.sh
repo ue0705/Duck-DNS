@@ -10,7 +10,7 @@ loc_ip=$(hostname -I | awk '{print $1}' | tr '.' ':')
 
 #get time, #%Y max=9999, 
 cur_time1=$(date +"%m:%d:%H:%M")
-cur_time2=$(date +"%m%d:%H%M") #$(date +"%Y:%m%d:%H%M") 
+cur_time2=$(date +"%H%M") #$(date +"%Y:%m%d:%H%M") or $(date +"%m%d:%H%M")
 #echo $cur_time1
 #echo $cur_time2
 
@@ -21,8 +21,12 @@ cur_size_th=$(echo "$cur_size" | awk '{print int($1 / 1000)}')
 cur_size_rm=$(echo "$cur_size" | awk '{print $1 % 1000}')
 #echo $cur_size, $cur_size_th, $cur_size_rm
 
-#ipv6 is local_ip + YY:mmdd:HHMM:disk_space(GB):disk_space(%MB) or old:local_ip + mm:dd:HH:MM 
-ext_ipv6=$loc_ip:$cur_time2:$cur_size_th:$cur_size_rm #old: $loc_ip:$cur_time1
+#get cpu temperature
+cpu_temp=$(vcgencmd measure_temp | grep -o '[0-9]*\.[0-9]*' | cut -d '.' -f 1)
+#echo $cpu_temp
+
+#ipv6 is local_ip + HHMM:disk_space(GB):disk_space(%MB):CPU_Temp or old:local_ip + mm:dd:HH:MM 
+ext_ipv6=$loc_ip:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ip:$cur_time1
 #echo $ext_ipv6
 
 #get host name, ex:rasp4b-001
@@ -50,8 +54,8 @@ echo url="$url" | curl -k -o /home/pi/duckdns/duck.log -K -
 #218.161.5.142
 #192:168:51:99:06:24:20:54
 
-#new version, ipv4 + mmdd + hhmm + free disk size(GB) + free disk size(%MB)
+#new version, ipv4 + hhmm + free disk size(GB) + free disk size(%MB) + cpu_temp(C)
 #cat duck.log
 #OK
 #218.161.5.142
-#192:168:51:99:0624:2054:40:814
+#192:168:51:99:2054:40:814:70
