@@ -30,7 +30,7 @@ cpu_temp=$(vcgencmd measure_temp | grep -o '[0-9]*\.[0-9]*' | cut -d '.' -f 1)
 ext_ipv6=$loc_ip:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ip:$cur_time1
 #echo $ext_ipv6
 
-#get host name, ex:rasp4b-001
+#get host name, ex:rasp4b-001, need match DDNS web setting.
 pi_name=$(hostname)
 #echo $pi_name
 
