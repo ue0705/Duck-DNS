@@ -1,5 +1,5 @@
+#Gen by fue0416@gmail.com 20240707 ver 1.0
 #!/bin/bash
-#date:2024/07/03 ver:0.2 fue0416@gmail.com
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
@@ -30,7 +30,7 @@ cpu_temp=$(vcgencmd measure_temp | grep -o '[0-9]*\.[0-9]*' | cut -d '.' -f 1)
 ext_ipv6=$loc_ip:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ip:$cur_time1
 #echo $ext_ipv6
 
-#get host name, ex:rasp4b-001, need match DDNS web setting.
+#get host name, ex:rasp4b-001
 pi_name=$(hostname)
 #echo $pi_name
 
@@ -60,3 +60,32 @@ echo url="$url" | curl -k -o /home/pi/duckdns/duck.log -K -
 #OK
 #218.161.5.142
 #192:168:51:99:2054:40:814:70
+
+#------------- save duck.log to duck.csv ------------
+#!/bin/bash
+
+# set duck.log file path
+LOG_FILE="duck.log"
+# set duck.csv file path
+CSV_FILE="duck.csv"
+
+# if not file then init duck.csv，write header
+if [ ! -f "$CSV_FILE" ]; then
+  echo "timestamp,hostname,duck_result,duck_ipv4,duck_ipv6,free_space(MB),cpu_temp(C)" > "$CSV_FILE"
+fi
+
+# read duck.log 3 line
+if [ -f "$LOG_FILE" ]; then
+    duck_result=$(sed -n '1p' "$LOG_FILE")
+    duck_ipv4=$(sed -n '2p' "$LOG_FILE")
+    duck_ipv6=$(sed -n '3p' "$LOG_FILE")
+else
+  echo "duck.log file not exist or can't read"
+  continue
+fi
+
+# gen now timestamp
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+
+# out all information to duck.csv中
+echo "$TIMESTAMP,$pi_name,$duck_result,$duck_ipv4,$duck_ipv6,$cur_size,$cpu_temp" >> "$CSV_FILE"
