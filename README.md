@@ -15,7 +15,7 @@ Raspberry Pi 有什麼方式可以線上知道他是否活著? 我看過 Austin 
 2024/7/7 更新
 把每三分鐘的 duck.log 更新結果, 加上本地訊息, 每次新增到 duck.csv 後面, 方便日後調取日誌, 並劃出剩餘磁碟空間或者 CPU 溫度曲線等功能.
 
-============================================================================================================================
+===============================================================================================================
 
 How can I check online if a Raspberry Pi is alive? I saw Austin's Rolf create a system that runs a Python script on a computer to list the currently online Pi devices. Nowadays, there are dedicated remote monitoring tools or services that can regularly check the status of devices and send alerts or notifications. Some common monitoring tools include Zabbix, Nagios, Prometheus, etc. These can be configured to monitor the running status of a Raspberry Pi.
 
