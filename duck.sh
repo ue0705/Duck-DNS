@@ -1,4 +1,4 @@
-#Gen by fue0416@gmail.com 20240707 ver 1.0
+#gen by fue0416@gmail.com 20240707 ver 1.0
 #!/bin/bash
 
 #get ext ip addr
@@ -65,9 +65,9 @@ echo url="$url" | curl -k -o /home/pi/duckdns/duck.log -K -
 #!/bin/bash
 
 # set duck.log file path
-LOG_FILE="duck.log"
+LOG_FILE="/home/pi/duckdns/duck.log"
 # set duck.csv file path
-CSV_FILE="duck.csv"
+CSV_FILE="/home/pi/duckdns/duck.csv"
 
 # if not file then init duck.csv，write header
 if [ ! -f "$CSV_FILE" ]; then
