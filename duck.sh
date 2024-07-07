@@ -1,5 +1,13 @@
-#gen by fue0416@gmail.com 20240707 ver 1.0
+#Gen by fue0416@gmail.com 20240707 ver 1.0
 #!/bin/bash
+
+#Per 3min update to duckdns.org free support 5 devices
+#crontab -e
+#*/3 * * * * sh /home/$USER_NAME/duckdns/duck.sh >/dev/null 2>&1
+
+#set run path, pls replace "pi" to your user name
+USER_NAME="ue"
+BASE_DIR="/home/$USER_NAME/duckdns"
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
@@ -41,13 +49,9 @@ url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=c5581
 #url=${url_temp//8.8.8.8/ext_ip} #can't replace duto format
 url=$(echo $url_temp | sed "s/8.8.8.8/$ext_ip/" | sed "s/1:2:3:4:5:6:7:8/$ext_ipv6/" | sed "s/RaspNum/$pi_name/")
 
-#update to duck
-echo url="$url" | curl -k -o /home/pi/duckdns/duck.log -K -
+#get current folder and update to duck
+echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
 #echo $url
-
-#Per 3min update to duckdns.org free support 5 devices
-#crontab -e
-#*/3 * * * * sh /home/pi/duckdns/duck.sh >/dev/null 2>&1
 
 #log result, old version, g_ipv4, l_ipv4+mm:dd:hh:min
 #cat duck.log
@@ -64,10 +68,9 @@ echo url="$url" | curl -k -o /home/pi/duckdns/duck.log -K -
 #------------- save duck.log to duck.csv ------------
 #!/bin/bash
 
-# set duck.log file path
-LOG_FILE="/home/pi/duckdns/duck.log"
-# set duck.csv file path
-CSV_FILE="/home/pi/duckdns/duck.csv"
+# set source duck.log and output duck.csv file path
+LOG_FILE="$BASE_DIR/duck.log"
+CSV_FILE="$BASE_DIR/duck.csv"
 
 # if not file then init duck.csv，write header
 if [ ! -f "$CSV_FILE" ]; then
