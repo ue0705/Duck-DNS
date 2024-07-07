@@ -1,4 +1,4 @@
-#Gen by fue0416@gmail.com 20240707 ver 1.0
+#Gen by fue0416@gmail.com 20240707 ver 1.2
 #!/bin/bash
 
 #Per 3min update to duckdns.org free support 5 devices
@@ -6,7 +6,7 @@
 #*/3 * * * * sh /home/$USER_NAME/duckdns/duck.sh >/dev/null 2>&1
 
 #set run path, pls replace "pi" to your user name
-USER_NAME="ue"
+USER_NAME="pi"
 BASE_DIR="/home/$USER_NAME/duckdns"
 
 #get ext ip addr
@@ -68,9 +68,15 @@ echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
 #------------- save duck.log to duck.csv ------------
 #!/bin/bash
 
-# set source duck.log and output duck.csv file path
+# set source duck.log and output ex:2024_0701_0714_week27_duck.csv file path
 LOG_FILE="$BASE_DIR/duck.log"
-CSV_FILE="$BASE_DIR/duck.csv"
+CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -dlast-monday +'%m%d')_$(date -dnext-sunday +'%m%d')_week$(date +'%U')_duck.csv"
+CSV_DIRECT="$BASE_DIR/result"
+
+# if not direct then create direct
+if [ ! -d "$CSV_DIRECT" ]; then
+  mkdir -p "$CSV_DIRECT"
+fi
 
 # if not file then init duck.csv，write header
 if [ ! -f "$CSV_FILE" ]; then
