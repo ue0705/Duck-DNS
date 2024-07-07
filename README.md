@@ -2,9 +2,7 @@
 Short description:
 Using DuckDNS's update function, configure the Raspberry Pi to update the global IP in the IPv4 field every three minutes, and fill the local IP in the first four digits of the IPv6 field. The remaining four digits should include the time, disk free space, and CPU temperature. Save the records to a CSV file to provide external processing by another service, which will generate visual charts to clearly display system temperature and other information.
 
-簡短說明:
-利用 DuckDNS 更新的功能, 將 Raspberry Pi 固定每三分鐘更新廣域 ip 填到 ipv4 欄位, 將本地 ip 填到 ipv6 前四碼, 剩下的後四碼填上 時間:磁碟剩餘空間:CPU溫度, 並且將記錄存到 CSV 檔案, 提供外部 ducker 做其他整理, 畫出視覺畫圖表, 讓系統的溫度等訊息更清楚.
-=================================================================================================
+簡短說明: 利用 DuckDNS 更新的功能, 將 Raspberry Pi 固定每三分鐘更新廣域 ip 填到 ipv4 欄位, 將本地 ip 填到 ipv6 前四碼, 剩下的後四碼填上 時間:磁碟剩餘空間:CPU溫度, 並且將記錄存到 CSV 檔案, 提供外部 ducker 做其他整理, 畫出視覺畫圖表, 讓系統的溫度等訊息更清楚. =================================================================================================
 
 Raspberry Pi 有什麼方式可以線上知道他是否活著? 我看過 Austin 的 Rolf 弄過一套系統, 在電腦跑一個 python 他會列出來目前有上線的 pi list, 現在有專門的遠端監控工具或服務，這些工具能夠定期檢查設備的狀態並發送警報或通知。一些常見的監控工具包括Zabbix、Nagios、Prometheus等，它們可以配置來監控Raspberry Pi的運行狀態。
 
