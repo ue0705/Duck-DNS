@@ -17,6 +17,7 @@ Raspberry Pi 有什麼方式可以線上知道他是否活著? 我看過 Austin 
 
 2024/7/7 更新
 把每三分鐘的 duck.log 更新結果, 加上本地訊息, 每次新增到 result 目錄中, 檔名每週更換一次, 例如 2024_0701_0707_week27_duck.csv, 方便日後調取日誌, 並劃出剩餘磁碟空間或者 CPU 溫度曲線等功能.
+![image](https://github.com/ue0705/Duck-DNS/assets/117436583/e71f0b44-ec43-4b79-99e0-5326464a3363)
 
 =================================================================================================
 
@@ -33,4 +34,5 @@ I suddenly thought of the Raspberry Pi's memory card. Sometimes we don't know it
 
 Update on 2024/7/7:
 I added the local information to the duck.log update results every three minutes. Each time, the new data is appended to the end of duck.csv for future log retrieval, enabling plotting of remaining disk space or CPU temperature curves and other functions.
+![image](https://github.com/ue0705/Duck-DNS/assets/117436583/e71f0b44-ec43-4b79-99e0-5326464a3363)
 
