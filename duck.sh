@@ -9,6 +9,9 @@
 USER_NAME="pi"
 BASE_DIR="/home/$USER_NAME/duckdns"
 
+#URL temp
+url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=TOKEN_GET_GROM_WEB&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
+
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
 #echo $ext_ip
@@ -42,9 +45,6 @@ ext_ipv6=$loc_ip:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ip:$c
 pi_name=$(hostname)
 #echo $pi_name
 
-#URL temp
-url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=c55817a8-f351-4755-8235-ac0c6c2ca3ab&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
-
 #exchange ip addr
 #url=${url_temp//8.8.8.8/ext_ip} #can't replace duto format
 url=$(echo $url_temp | sed "s/8.8.8.8/$ext_ip/" | sed "s/1:2:3:4:5:6:7:8/$ext_ipv6/" | sed "s/RaspNum/$pi_name/")
@@ -65,12 +65,22 @@ echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
 #218.161.5.142
 #192:168:51:99:2054:40:814:70
 
+#fail example1
+#cat duck.log
+#KO
+
+#fail example2
+#cat duck.log
+#<html>
+#,<head><title>502 Bad Gateway</title></head>
+#,<body>
+
 #------------- save duck.log to duck.csv ------------
 #!/bin/bash
 
 # set source duck.log and output ex:2024_0701_0714_week27_duck.csv file path
 LOG_FILE="$BASE_DIR/duck.log"
-CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -dlast-monday +'%m%d')_$(date -dnext-sunday +'%m%d')_week$(date +'%U')_duck.csv"
+CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -dlast-monday +'%m%d')_$(date -dnext-sunday +'%m%d')_week$(date +'%V')_duck.csv"
 CSV_DIRECT="$BASE_DIR/result"
 
 # if not direct then create direct
@@ -83,14 +93,23 @@ if [ ! -f "$CSV_FILE" ]; then
   echo "timestamp,hostname,duck_result,duck_ipv4,duck_ipv6,free_space(MB),cpu_temp(C)" > "$CSV_FILE"
 fi
 
-# read duck.log 3 line
+# Read duck.log 3 line, pls reference duck.log format
 if [ -f "$LOG_FILE" ]; then
     duck_result=$(sed -n '1p' "$LOG_FILE")
-    duck_ipv4=$(sed -n '2p' "$LOG_FILE")
-    duck_ipv6=$(sed -n '3p' "$LOG_FILE")
+    if [ "$duck_result" = "OK" ]; then
+        duck_ipv4=$(sed -n '2p' "$LOG_FILE")
+        duck_ipv6=$(sed -n '3p' "$LOG_FILE")
+    elif [ "$duck_result" = "KO" ]; then
+        duck_ipv4="N/A"
+        duck_ipv6="N/A"
+    else
+        duck_result="FAIL"
+        duck_ipv4="502 bad Gateway"
+        duck_ipv6="html"
+    fi
 else
-  echo "duck.log file not exist or can't read"
-  continue
+    echo "duck.log file not exist or can't read"
+    continue
 fi
 
 # gen now timestamp
