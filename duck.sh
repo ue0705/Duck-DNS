@@ -80,7 +80,7 @@ echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
 
 # set source duck.log and output ex:2024_0701_0714_week27_duck.csv file path
 LOG_FILE="$BASE_DIR/duck.log"
-CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -dlast-monday +'%m%d')_$(date -dnext-sunday +'%m%d')_week$(date +'%V')_duck.csv"
+CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -d"sunday this week" +'%m%d')_$(date -d"saturday this week" +'%m%d')_week$(date +'%V')_duck.csv"
 CSV_DIRECT="$BASE_DIR/result"
 
 # if not direct then create direct
