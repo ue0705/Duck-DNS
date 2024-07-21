@@ -10,7 +10,7 @@ USER_NAME="pi"
 BASE_DIR="/home/$USER_NAME/duckdns"
 
 #URL temp
-url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=TOKEN_GET_GROM_WEB&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
+url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=TOKEN&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
@@ -78,9 +78,9 @@ echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
 #------------- save duck.log to duck.csv ------------
 #!/bin/bash
 
-# set source duck.log and output ex:2024_0701_0714_week27_duck.csv file path
+# set source duck.log and output(sunday is week first day) ex:2024_0721_0727_week30_duck.csv file path
 LOG_FILE="$BASE_DIR/duck.log"
-CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -d"sunday this week" +'%m%d')_$(date -d"saturday this week" +'%m%d')_week$(date +'%V')_duck.csv"
+CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -d"last sunday" +'%m%d')_$(date -d"last sunday + 6 days" +'%m%d')_week$(date +'%V')_duck.csv"
 CSV_DIRECT="$BASE_DIR/result"
 
 # if not direct then create direct
@@ -115,5 +115,5 @@ fi
 # gen now timestamp
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
-# out all information to duck.csv中
+# out all information to duck.csv
 echo "$TIMESTAMP,$pi_name,$duck_result,$duck_ipv4,$duck_ipv6,$cur_size,$cpu_temp" >> "$CSV_FILE"
