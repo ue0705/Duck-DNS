@@ -21,6 +21,9 @@ Raspberry Pi 有什麼方式可以線上知道他是否活著? 我看過 Austin 
 把每三分鐘的 duck.log 更新結果, 加上本地訊息, 每次新增到 result 目錄中, 檔名每週更換一次, 例如 2024_0701_0707_week27_duck.csv, 方便日後調取日誌, 並劃出剩餘磁碟空間或者 CPU 溫度曲線等功能.
 ![image](https://github.com/ue0705/Duck-DNS/assets/117436583/e71f0b44-ec43-4b79-99e0-5326464a3363)
 
+2024/7/22 更新
+修正每個星期的第一天是星期日，最後一天是星期六(部分地區或系統會將星期一當作每星期的第一天)，另外跟 duckdns 無關，是每天中午12點整會發送一次 Line notic 說明機器還活著，或者說該機器目前正在上線中，不用在去看 duckdns 的結果。
+
 =================================================================================================
 
 How can I check online if a Raspberry Pi is alive? I saw Austin's Rolf create a system that runs a Python script on a computer to list the currently online Pi devices. Nowadays, there are dedicated remote monitoring tools or services that can regularly check the status of devices and send alerts or notifications. Some common monitoring tools include Zabbix, Nagios, Prometheus, etc. These can be configured to monitor the running status of a Raspberry Pi.
@@ -38,3 +41,5 @@ Update on 2024/7/7:
 I added the local information to the duck.log update results every three minutes. Each time, the new data is appended to the end of duck.csv for future log retrieval, enabling plotting of remaining disk space or CPU temperature curves and other functions.
 ![image](https://github.com/ue0705/Duck-DNS/assets/117436583/e71f0b44-ec43-4b79-99e0-5326464a3363)
 
+Update on 2024/7/22:
+Corrected that the first day of each week is Sunday and the last day is Saturday (some regions or systems will regard Monday as the first day of each week). In addition, it has nothing to do with duckdns. A Line notice will be sent every day at 12 noon. It means that the machine is still alive, or that the machine is currently online. There is no need to look at the results of duckdns.
