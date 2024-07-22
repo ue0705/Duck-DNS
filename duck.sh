@@ -1,4 +1,4 @@
-#Gen by fue0416@gmail.com 20240707 ver 1.2
+#Gen by fue0416@gmail.com 20240707 ver 1.6
 #!/bin/bash
 
 #Per 3min update to duckdns.org free support 5 devices
@@ -10,7 +10,10 @@ USER_NAME="pi"
 BASE_DIR="/home/$USER_NAME/duckdns"
 
 #URL temp
-url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=TOKEN&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
+url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=YOUR_DUCK_TOKEN&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
+
+# Line Notify Token (replace you real Token)
+LINE_NOTIFY_TOKEN="YOUR_LINE_TOKEN"
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
@@ -117,3 +120,12 @@ TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 # out all information to duck.csv
 echo "$TIMESTAMP,$pi_name,$duck_result,$duck_ipv4,$duck_ipv6,$cur_size,$cpu_temp" >> "$CSV_FILE"
+
+#------------- send line message perday when 12:00AM ------------
+#!/bin/bash
+
+# check 12:00AM
+if [ "$(date +"%H:%M")" = "12:00" ]; then
+	msg="message="+"$TIMESTAMP,$pi_name,$duck_result,$duck_ipv4,$duck_ipv6,$cur_size,$cpu_temp"
+	curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: Bearer ""$LINE_NOTIFY_TOKEN" --data "$msg" https://notify-api.line.me/api/notify
+fi
