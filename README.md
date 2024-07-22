@@ -2,7 +2,7 @@
 Short description:
 Using DuckDNS's update function, configure the Raspberry Pi to update the global IP in the IPv4 field every three minutes, and fill the local IP in the first four digits of the IPv6 field. The remaining four digits should include the time, disk free space, and CPU temperature. Save the records to a CSV file to provide external processing by another service, which will generate visual charts to clearly display system temperature and other information.
 
-簡短說明: 利用 DuckDNS 更新的功能, 將 Raspberry Pi 固定每三分鐘更新廣域 ip 填到 ipv4 欄位, 將本地 ip 填到 ipv6 前四碼, 剩下的後四碼填上 時間:磁碟剩餘空間:CPU溫度, 並且將記錄存到 CSV 檔案, 提供外部 ducker 做其他整理, 畫出視覺畫圖表, 讓系統的溫度等訊息更清楚. 
+簡短說明: 利用 DuckDNS 更新的功能, 將 Raspberry Pi 固定每三分鐘更新廣域 ip 填到 ipv4 欄位, 將本地 ip 填到 ipv6 前四碼, 剩下的後四碼填上 時間:磁碟剩餘空間:CPU溫度, 並且將記錄存到 CSV 檔案, 提供外部 ducker 做其他整理, 畫出視覺畫圖表, 讓系統的溫度等訊息更清楚, 於是每天中午會可以看到在同一個 line 上面全部的機器回報是否上線中。
 
 =================================================================================
 
@@ -42,4 +42,4 @@ I added the local information to the duck.log update results every three minutes
 ![image](https://github.com/ue0705/Duck-DNS/assets/117436583/e71f0b44-ec43-4b79-99e0-5326464a3363)
 
 Update on 2024/7/22:
-Corrected that the first day of each week is Sunday and the last day is Saturday (some regions or systems will regard Monday as the first day of each week). In addition, it has nothing to do with duckdns. A Line notice will be sent every day at 12 noon. It means that the machine is still alive, or that the machine is currently online. There is no need to look at the results of duckdns.
+Corrected that the first day of each week is Sunday and the last day is Saturday (some regions or systems will regard Monday as the first day of each week). In addition, it has nothing to do with duckdns. A Line notice will be sent every day at 12 noon. It means that the machine is still alive, or that the machine is currently online. There is no need to look at the results of duckdns, so everyday 12AM at line message group can check each online Pi system name and status.
