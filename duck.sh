@@ -10,10 +10,10 @@ USER_NAME="pi"
 BASE_DIR="/home/$USER_NAME/duckdns"
 
 #URL temp
-url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=YOUR_DUCK_TOKEN&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
+url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=YOUR_TOKEN&ip=8.8.8.8&ipv6=1:2:3:4:5:6:7:8&verbose=true"
 
 # Line Notify Token (replace you real Token)
-LINE_NOTIFY_TOKEN="YOUR_LINE_TOKEN"
+LINE_NOTIFY_TOKEN="YOUR_TOKEN"
 
 #get ext ip addr
 ext_ip=$(curl -s ifconfig.me)
@@ -81,10 +81,10 @@ echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
 #------------- save duck.log to duck.csv ------------
 #!/bin/bash
 
-# set source duck.log and output(sunday is week first day) ex:2024_0721_0727_week30_duck.csv file path
-LOG_FILE="$BASE_DIR/duck.log"
-CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -d"last sunday" +'%m%d')_$(date -d"last sunday + 6 days" +'%m%d')_week$(date +'%V')_duck.csv"
+# set source duck.log and output(monday is week first day) ex:2024_0722_0728_week30_duck.csv file path
 CSV_DIRECT="$BASE_DIR/result"
+LOG_FILE="$BASE_DIR/duck.log"
+CSV_FILE="$BASE_DIR/result/$(date +'%Y')_$(date -d"last monday" +'%m%d')_$(date -d"last monday + 6 days" +'%m%d')_week$(date +'%V')_duck.csv"
 
 # if not direct then create direct
 if [ ! -d "$CSV_DIRECT" ]; then
