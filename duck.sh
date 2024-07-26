@@ -40,18 +40,18 @@ cpu_temp=$(vcgencmd measure_temp | grep -o '[0-9]*\.[0-9]*' | cut -d '.' -f 1)
 ext_ipv4=$(curl -s ifconfig.me)
 
 # check ext_ipv4 is IPv4, and ext_ipv6 is information
-if [[ $ext_ipv4 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-	#ivp4 get again and set ext_ipv4
-	ext_ipv4=$(curl -s ifconfig.me)
+case $ext_ipv4 in *.*.*.*)
 	#ipv6 is local_ip + HHMM:disk_space(GB):disk_space(%MB):CPU_Temp or old:local_ip + mm:dd:HH:MM #echo $ext_ipv6
-	ext_ipv6=$loc_ipv4:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ipv4:$cur_time1
-# check ext_ipv4 is IPv6, and ext_ipv6 is real ipv6, ipv4 is information
-else
+	ext_ipv6=$loc_ipv4:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp;; #old: $loc_ipv4:$cur_time1
+# check ext_ipv4 is IPv6, then ext_ipv6 is real ipv6, ipv4 is information
+	*:*)
 	#ivp4 get again and set ext_ipv6
     ext_ipv6=$(curl -s ifconfig.me)
 	#ipv4 is HH:MM:SPACE(GB):TEMP
-	ext_ipv4=$cur_time3.$cur_size_th.$cpu_temp
-fi
+	ext_ipv4=$cur_time3.$cur_size_th.$cpu_temp;;
+	*)
+	echo "unknow $ip is IPv4 or IPv6 addr";;
+esac
 
 #get host name, ex:rasp4b-001
 pi_name=$(hostname)
