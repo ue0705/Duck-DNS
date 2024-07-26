@@ -3,7 +3,7 @@
 
 #Per 3min update to duckdns.org free support 5 devices
 #crontab -e
-#*/3 * * * * sh /home/$USER_NAME/duckdns/duck.sh >/dev/null 2>&1
+#*/3 * * * * sh /home/pi/duckdns/duck.sh >/dev/null 2>&1
 
 #set run path, pls replace "pi" to your user name
 USER_NAME="pi"
@@ -15,19 +15,15 @@ url_temp="https://www.duckdns.org/update?domains=RaspNum.duckdns.org&token=YOUR_
 # Line Notify Token (replace you real Token)
 LINE_NOTIFY_TOKEN="YOUR_TOKEN"
 
-#get ext ip addr
-ext_ip=$(curl -s ifconfig.me)
-#echo $ext_ip
-
 #get local ip addr
-loc_ip=$(hostname -I | awk '{print $1}' | tr '.' ':')
-#echo $loc_ip
+loc_ipv4=$(hostname -I | awk '{print $1}' | tr '.' ':')
+#echo $loc_ipv4
 
 #get time, #%Y max=9999, 
 cur_time1=$(date +"%m:%d:%H:%M")
 cur_time2=$(date +"%H%M") #$(date +"%Y:%m%d:%H%M") or $(date +"%m%d:%H%M")
-#echo $cur_time1
-#echo $cur_time2
+cur_time3=$(date +"%H.%M")
+#echo $cur_time1, $cur_time2, $cur_time
 
 #get disk free space number(MB), max=9999MB (ffff), or '-BM' -> '-BG' for GB size
 cur_size=$(df -BM / | grep '/' | awk '{print $4}' | sed 's/M//') #or df -BM / | awk 'NR==2 {print $4}' | sed 's/M//'
@@ -40,17 +36,30 @@ cur_size_rm=$(echo "$cur_size" | awk '{print $1 % 1000}')
 cpu_temp=$(vcgencmd measure_temp | grep -o '[0-9]*\.[0-9]*' | cut -d '.' -f 1)
 #echo $cpu_temp
 
-#ipv6 is local_ip + HHMM:disk_space(GB):disk_space(%MB):CPU_Temp or old:local_ip + mm:dd:HH:MM 
-ext_ipv6=$loc_ip:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ip:$cur_time1
-#echo $ext_ipv6
+#get ext ip addr, #echo $ext_ipv4
+ext_ipv4=$(curl -s ifconfig.me)
+
+# check ext_ipv4 is IPv4, and ext_ipv6 is information
+if [[ $ext_ipv4 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+	#ivp4 get again and set ext_ipv4
+	ext_ipv4=$(curl -s ifconfig.me)
+	#ipv6 is local_ip + HHMM:disk_space(GB):disk_space(%MB):CPU_Temp or old:local_ip + mm:dd:HH:MM #echo $ext_ipv6
+	ext_ipv6=$loc_ipv4:$cur_time2:$cur_size_th:$cur_size_rm:$cpu_temp #old: $loc_ipv4:$cur_time1
+# check ext_ipv4 is IPv6, and ext_ipv6 is real ipv6, ipv4 is information
+else
+	#ivp4 get again and set ext_ipv6
+    ext_ipv6=$(curl -s ifconfig.me)
+	#ipv4 is HH:MM:SPACE(GB):TEMP
+	ext_ipv4=$cur_time3.$cur_size_th.$cpu_temp
+fi
 
 #get host name, ex:rasp4b-001
 pi_name=$(hostname)
 #echo $pi_name
 
 #exchange ip addr
-#url=${url_temp//8.8.8.8/ext_ip} #can't replace duto format
-url=$(echo $url_temp | sed "s/8.8.8.8/$ext_ip/" | sed "s/1:2:3:4:5:6:7:8/$ext_ipv6/" | sed "s/RaspNum/$pi_name/")
+#url=${url_temp//8.8.8.8/ext_ipv4} #can't replace duto format
+url=$(echo $url_temp | sed "s/8.8.8.8/$ext_ipv4/" | sed "s/1:2:3:4:5:6:7:8/$ext_ipv6/" | sed "s/RaspNum/$pi_name/")
 
 #get current folder and update to duck
 echo url="$url" | curl -k -o "$BASE_DIR/duck.log" -K -
